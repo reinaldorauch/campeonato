@@ -32,6 +32,8 @@ type
     function Pontos(ind: Byte): Word;
     function Partidas(ind: Byte): Word;
     function Saldo(ind: Byte): Integer;
+    procedure ShowError(ind: Byte; msg: String);
+    procedure ValidaLinha(Linha: String);
   end;
 
 var
@@ -100,7 +102,8 @@ begin
 end;
 
 procedure TPrinForm.BtnOpenClick(Sender: TObject);
-var Line: string;
+var Line: String;
+var iLine: Word;
 begin
   if(OpenDialog.Execute) then
     if(FileExists(OpenDialog.FileName)) then
@@ -110,20 +113,29 @@ begin
 
         Reset(CurrentFile);
 
-        while(NOT eof(CurrentFile)) do
-          begin
-            Readln(CurrentFile, Line);
- //            MmFile.Lines.Add(Line);
-            SeparaLinha(Line);
-            PosA := AchaTime(NomeA);
-            PosB := AchaTime(NomeB);
-            AnalisaJogo;
-            //
-          end;
+        try
 
-        Mostra;
-        // Ordenar
-        // Mostrar
+          while(NOT eof(CurrentFile)) do
+            begin
+              inc(iLine);
+              Readln(CurrentFile, Line);
+              ValidaLinha(Line);
+              SeparaLinha(Line);
+              PosA := AchaTime(NomeA);
+              PosB := AchaTime(NomeB);
+              AnalisaJogo;
+            end;
+
+          //Ordena;
+          Mostra;
+
+        except
+          on e:EConvertError do
+            ShowError(iLine, ' Não se pode converter uma letra em um número');
+          on e:Exception do
+            with e.GetBaseException do
+              ShowMessage('Erro: ' + ClassName)
+        end;
 
         CloseFile(CurrentFile);
 
@@ -152,6 +164,7 @@ begin
         SubItems.Add(intToStr(GolFeitos));
         SubItems.Add(intToStr(GolSofridos));
         SubItems.Add(intToStr(Saldo(i)));
+
       end;
 end;
 
@@ -185,6 +198,16 @@ begin
   PosVirg := Pos(',', Linha);
   NomeB   := copy(Linha, 1, PosVirg - 1);
   GolB    := StrToInt(Linha[PosVirg + 1]); // May Throw an Exception
+end;
+
+procedure TPrinForm.ShowError(ind: Byte; msg: String);
+begin
+  ShowMessage('Erro na linha #' + intToStr(ind) + ': ' + msg);
+end;
+
+procedure TPrinForm.ValidaLinha(Linha: String);
+begin
+
 end;
 
 end.
