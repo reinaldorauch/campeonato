@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls;
 
 type
   TRegTimes = Record
@@ -17,9 +17,9 @@ type
   End;
 
   TPrinForm = class(TForm)
-    MmFile: TMemo;
     BtnOpen: TButton;
     OpenDialog: TOpenDialog;
+    LvPlacar: TListView;
     procedure BtnOpenClick(Sender: TObject);
   private
     { Private declarations }
@@ -29,6 +29,9 @@ type
     function AchaTime(NomeBusca:String): Byte;
     procedure Mostra;
     procedure AnalisaJogo;
+    function Pontos(ind: Byte): Word;
+    function Partidas(ind: Byte): Word;
+    function Saldo(ind: Byte): Integer;
   end;
 
 var
@@ -110,7 +113,7 @@ begin
         while(NOT eof(CurrentFile)) do
           begin
             Readln(CurrentFile, Line);
-            MmFile.Lines.Add(Line);
+ //            MmFile.Lines.Add(Line);
             SeparaLinha(Line);
             PosA := AchaTime(NomeA);
             PosB := AchaTime(NomeB);
@@ -132,16 +135,42 @@ end;
 procedure TPrinForm.Mostra;
 var i: Byte;
 begin
-  MmFile.Lines.Add('');
+  LvPlacar.Items.Clear;
 
   for I := 0 to Length(VetTimes) - 1 do
-    with VetTimes[i] do
+    with LvPlacar.Items.Add, VetTimes[i] do
       begin
-        MmFile.Lines.Add(Nome + ', v: ' + inttostr(Vitorias) + ', d: '
-          + inttostr(Derrotas) + ', e: ' + inttostr(Empates) + ', gf: '
-          + inttostr(GolFeitos) + ', gs: ' + inttostr(GolSofridos) + ', s: '
-          + inttostr(GolFeitos - GolSofridos));
+
+        Caption := intToStr(i + 1);
+
+        SubItems.Add(Nome);
+        SubItems.Add(intToStr(Pontos(i)));
+        SubItems.Add(intToStr(Vitorias));
+        SubItems.Add(intToStr(Empates));
+        SubItems.Add(intToStr(Derrotas));
+        SubItems.Add(intToStr(Partidas(i)));
+        SubItems.Add(intToStr(GolFeitos));
+        SubItems.Add(intToStr(GolSofridos));
+        SubItems.Add(intToStr(Saldo(i)));
       end;
+end;
+
+function TPrinForm.Partidas(ind: Byte): Word;
+begin
+  with VetTimes[ind] do
+    result := Vitorias + Empates + Derrotas;
+end;
+
+function TPrinForm.Pontos(ind: Byte): Word;
+begin
+  with VetTimes[ind] do
+    result := (Vitorias * 3) + Empates;
+end;
+
+function TPrinForm.Saldo(ind: Byte): Integer;
+begin
+  with VetTimes[ind] do
+    result := GolFeitos - GolSofridos;
 end;
 
 procedure TPrinForm.SeparaLinha(Linha: String);

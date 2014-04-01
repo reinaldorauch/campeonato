@@ -3,7 +3,7 @@ object PrinForm: TPrinForm
   Top = 0
   Caption = 'Campeonato'
   ClientHeight = 202
-  ClientWidth = 447
+  ClientWidth = 553
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,21 +13,71 @@ object PrinForm: TPrinForm
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
-  object MmFile: TMemo
-    Left = 8
-    Top = 8
-    Width = 431
-    Height = 155
-    TabOrder = 0
-  end
   object BtnOpen: TButton
     Left = 8
     Top = 169
     Width = 75
     Height = 25
     Caption = 'Abrir'
-    TabOrder = 1
+    TabOrder = 0
     OnClick = BtnOpenClick
+  end
+  object LvPlacar: TListView
+    Left = 8
+    Top = 8
+    Width = 537
+    Height = 155
+    Columns = <
+      item
+        Caption = '#'
+        Width = 35
+      end
+      item
+        Caption = 'Nome'
+        Width = 200
+      end
+      item
+        Alignment = taRightJustify
+        Caption = 'Pontos'
+      end
+      item
+        Alignment = taRightJustify
+        Caption = 'Vit'
+        Width = 30
+      end
+      item
+        Alignment = taRightJustify
+        Caption = 'Em'
+        Width = 30
+      end
+      item
+        Alignment = taRightJustify
+        Caption = 'Der'
+        Width = 30
+      end
+      item
+        Alignment = taRightJustify
+        Caption = 'Part'
+        Width = 35
+      end
+      item
+        Caption = 'GPos'
+        Width = 40
+      end
+      item
+        Alignment = taRightJustify
+        Caption = 'GNeg'
+        Width = 40
+      end
+      item
+        AutoSize = True
+        Caption = 'Saldo'
+      end>
+    GridLines = True
+    ReadOnly = True
+    RowSelect = True
+    TabOrder = 1
+    ViewStyle = vsReport
   end
   object OpenDialog: TOpenDialog
     Left = 328
