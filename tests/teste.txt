@@ -1,4 +1,4 @@
-Atletico,O,Operario,1
+Atletico,0,Operario,1
 Atletico,4,Operario,2
 Atletico,2,Operario,3
 Atletico,3,Operario,4

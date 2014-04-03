@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
-  <Transactions>
-    <Transaction>2014/03/25 20:21:40.612,=C:\Users\Delphi\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2014/03/25 20:22:03.935,C:\Users\Delphi\Desktop\projetosDelphi\campeonato\src\PrinUnit.pas=C:\Users\Delphi\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2014/03/25 20:22:03.935,C:\Users\Delphi\Desktop\projetosDelphi\campeonato\src\PrinUnit.dfm=C:\Users\Delphi\Documents\RAD Studio\Projects\Unit1.dfm</Transaction>
-    <Transaction>2014/03/25 20:22:13.065,C:\Users\Delphi\Desktop\projetosDelphi\campeonato\projeto\campeonato.dproj=C:\Users\Delphi\Documents\RAD Studio\Projects\Project1.dproj</Transaction>
+	<Transactions>
+    <Transaction>2014/03/25 20:21:40.000.612,=C:\Users\Delphi\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2014/03/25 20:22:03.000.935,C:\Users\Delphi\Desktop\projetosDelphi\campeonato\src\PrinUnit.pas=C:\Users\Delphi\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2014/03/25 20:22:03.000.935,C:\Users\Delphi\Desktop\projetosDelphi\campeonato\src\PrinUnit.dfm=C:\Users\Delphi\Documents\RAD Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2014/03/25 20:22:13.000.065,C:\Users\Delphi\Desktop\projetosDelphi\campeonato\projeto\campeonato.dproj=C:\Users\Delphi\Documents\RAD Studio\Projects\Project1.dproj</Transaction>
   </Transactions>
 </BorlandProject>

@@ -34,6 +34,7 @@ type
     function Saldo(ind: Byte): Integer;
     procedure ShowError(ind: Byte; msg: String);
     procedure ValidaLinha(Linha: String);
+    procedure Ordena;
   end;
 
 var
@@ -126,7 +127,7 @@ begin
               AnalisaJogo;
             end;
 
-          //Ordena;
+          Ordena;
           Mostra;
 
         except
@@ -166,6 +167,35 @@ begin
         SubItems.Add(intToStr(Saldo(i)));
 
       end;
+end;
+
+procedure TPrinForm.Ordena;
+var i, j: word;
+var aux: TRegTimes;
+begin
+
+  for i := 1 to Length(VetTimes)-1 do
+    begin
+
+      j := i;
+
+      while (j > 0)
+        AND ((Pontos(j) > Pontos(j-1))
+          OR ((Pontos(j) = Pontos(j-1))
+            AND (Saldo(j) > Saldo(j-1)))
+          OR ((Pontos(j) = Pontos(j-1))
+            AND (Saldo(j) = Saldo(j-1))
+            AND (VetTimes[j].Vitorias > VetTimes[j-1].Vitorias))) do
+        begin
+          Aux := VetTimes[j];
+          VetTimes[j] := VetTimes[j-1];
+          VetTimes[j-1] := Aux;
+
+          dec(j);
+        end;
+
+    end;
+
 end;
 
 function TPrinForm.Partidas(ind: Byte): Word;
