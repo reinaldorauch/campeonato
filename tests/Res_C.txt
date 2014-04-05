@@ -1,0 +1,20 @@
+Botafogo - RJ,4,Cruzeiro - MG,6
+Botafogo - RJ,7,Goiás,2
+Botafogo - RJ,4,Londrina,3
+Botafogo - RJ,0,Olaria,5
+Cruzeiro - MG,3,Botafogo - RJ,0
+Cruzeiro - MG,7,Goiás,4
+Cruzeiro - MG,3,Londrina,5
+Cruzeiro - MG,1,Olaria,1
+Goiás,1,Botafogo - RJ,5
+Goiás,0,Cruzeiro - MG,6
+Goiás,1,Londrina,7
+Goiás,5,Olaria,7
+Londrina,7,Botafogo - RJ,5
+Londrina,7,Cruzeiro - MG,6
+Londrina,6,Goiás,1
+Londrina,4,Olaria,6
+Olaria,3,Botafogo - RJ,2
+Olaria,4,Cruzeiro - MG,4
+Olaria,4,Goiás,3
+Olaria,3,Londrina,3
