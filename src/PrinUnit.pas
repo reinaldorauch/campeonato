@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, RegularExpressions;
 
 type
   TRegTimes = Record
@@ -16,11 +16,14 @@ type
     GolSofridos: Word;
   End;
 
+  EInvalidLine = class(Exception);
+
   TPrinForm = class(TForm)
     BtnOpen: TButton;
     OpenDialog: TOpenDialog;
     LvPlacar: TListView;
     procedure BtnOpenClick(Sender: TObject);
+
   private
     { Private declarations }
   public
@@ -32,8 +35,7 @@ type
     function Pontos(ind: Byte): Word;
     function Partidas(ind: Byte): Word;
     function Saldo(ind: Byte): Integer;
-    procedure ShowError(ind: Byte; msg: String);
-    procedure ValidaLinha(Linha: String);
+    procedure ShowError(ind: LongWord; msg: String);
     procedure Ordena;
   end;
 
@@ -104,7 +106,7 @@ end;
 
 procedure TPrinForm.BtnOpenClick(Sender: TObject);
 var Line: String;
-var iLine: Word;
+var iLine: LongWord;
 begin
   if(OpenDialog.Execute) then
     if(FileExists(OpenDialog.FileName)) then
@@ -114,13 +116,14 @@ begin
 
         Reset(CurrentFile);
 
+        iLine := 0;
+
         try
 
           while(NOT eof(CurrentFile)) do
             begin
               inc(iLine);
               Readln(CurrentFile, Line);
-              ValidaLinha(Line);
               SeparaLinha(Line);
               PosA := AchaTime(NomeA);
               PosB := AchaTime(NomeB);
@@ -133,9 +136,11 @@ begin
         except
           on e:EConvertError do
             ShowError(iLine, ' Não se pode converter uma letra em um número');
+          on e:EInvalidLine do
+            ShowError(iLine, e.Message);
           on e:Exception do
             with e.GetBaseException do
-              ShowMessage('Erro: ' + ClassName)
+              ShowError(iLine, ' Erro: ' + ClassName);
         end;
 
         CloseFile(CurrentFile);
@@ -217,27 +222,37 @@ begin
 end;
 
 procedure TPrinForm.SeparaLinha(Linha: String);
-var PosVirg: Byte;
+var
+  PosVirg: Byte;
+  linePattern: TRegEx;
+  Match: TMatch;
 begin
-  PosVirg := Pos(',', Linha);
-  NomeA   := copy(Linha, 1, PosVirg-1);
-  GolA    := StrToInt(Linha[PosVirg+1]); // May Throw an Exception
 
-  Linha   := copy(Linha, PosVirg + 3, (Length(Linha) - PosVirg + 3));
+  LinePattern := TRegEx.Create('^(.+),([0-9]),(.+),([0-9])$');
 
-  PosVirg := Pos(',', Linha);
-  NomeB   := copy(Linha, 1, PosVirg - 1);
-  GolB    := StrToInt(Linha[PosVirg + 1]); // May Throw an Exception
+  Match := LinePattern.Match(Linha);
+
+  if(Match.Success) then
+    begin
+      with Match.Groups do
+        begin
+          NomeA := Item[1].Value;
+          GolA  := StrToInt(Item[2].Value);
+          NomeB := Item[3].Value;
+          GolB  := StrToInt(Item[4].Value);
+        end;
+    end
+  else
+    if(TRegEx.IsMatch(Linha, '^.+,.,.+,.$')) then
+      raise EInvalidLine.Create('Há uma letra no placar')
+    else
+      raise EInvalidLine.Create('Formatação inválida da linha');
+
 end;
 
-procedure TPrinForm.ShowError(ind: Byte; msg: String);
+procedure TPrinForm.ShowError(ind: LongWord; msg: String);
 begin
   ShowMessage('Erro na linha #' + intToStr(ind) + ': ' + msg);
-end;
-
-procedure TPrinForm.ValidaLinha(Linha: String);
-begin
-
 end;
 
 end.
