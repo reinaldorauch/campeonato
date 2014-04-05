@@ -3,7 +3,7 @@ object PrinForm: TPrinForm
   Top = 0
   Caption = 'Campeonato'
   ClientHeight = 202
-  ClientWidth = 553
+  ClientWidth = 600
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,6 +11,9 @@ object PrinForm: TPrinForm
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  DesignSize = (
+    600
+    202)
   PixelsPerInch = 96
   TextHeight = 13
   object BtnOpen: TButton
@@ -18,6 +21,7 @@ object PrinForm: TPrinForm
     Top = 169
     Width = 75
     Height = 25
+    Anchors = [akLeft, akBottom]
     Caption = 'Abrir'
     TabOrder = 0
     OnClick = BtnOpenClick
@@ -25,51 +29,55 @@ object PrinForm: TPrinForm
   object LvPlacar: TListView
     Left = 8
     Top = 8
-    Width = 537
+    Width = 584
     Height = 155
+    Anchors = [akLeft, akTop, akRight, akBottom]
     Columns = <
       item
+        AutoSize = True
         Caption = '#'
-        Width = 35
       end
       item
+        AutoSize = True
         Caption = 'Nome'
-        Width = 200
       end
       item
         Alignment = taRightJustify
+        AutoSize = True
         Caption = 'Pontos'
       end
       item
         Alignment = taRightJustify
+        AutoSize = True
         Caption = 'Vit'
-        Width = 30
       end
       item
         Alignment = taRightJustify
+        AutoSize = True
         Caption = 'Em'
-        Width = 30
       end
       item
         Alignment = taRightJustify
+        AutoSize = True
         Caption = 'Der'
-        Width = 30
       end
       item
         Alignment = taRightJustify
+        AutoSize = True
         Caption = 'Part'
-        Width = 35
-      end
-      item
-        Caption = 'GPos'
-        Width = 40
       end
       item
         Alignment = taRightJustify
-        Caption = 'GNeg'
-        Width = 40
+        AutoSize = True
+        Caption = 'GPos'
       end
       item
+        Alignment = taRightJustify
+        AutoSize = True
+        Caption = 'GNeg'
+      end
+      item
+        Alignment = taRightJustify
         AutoSize = True
         Caption = 'Saldo'
       end>
