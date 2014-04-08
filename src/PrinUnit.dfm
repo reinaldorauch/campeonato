@@ -87,6 +87,32 @@ object PrinForm: TPrinForm
     TabOrder = 1
     ViewStyle = vsReport
   end
+  object EdBusca: TEdit
+    Left = 89
+    Top = 171
+    Width = 341
+    Height = 25
+    Anchors = [akLeft, akRight, akBottom]
+    TabOrder = 2
+  end
+  object BtnMostraVazado: TButton
+    Left = 517
+    Top = 169
+    Width = 75
+    Height = 25
+    Anchors = [akRight, akBottom]
+    Caption = 'Pior Defeza'
+    TabOrder = 3
+  end
+  object BtnBuscar: TButton
+    Left = 436
+    Top = 169
+    Width = 75
+    Height = 25
+    Anchors = [akRight, akBottom]
+    Caption = 'Buscar'
+    TabOrder = 4
+  end
   object OpenDialog: TOpenDialog
     Left = 328
     Top = 176

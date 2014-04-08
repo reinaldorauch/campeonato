@@ -22,6 +22,9 @@ type
     BtnOpen: TButton;
     OpenDialog: TOpenDialog;
     LvPlacar: TListView;
+    EdBusca: TEdit;
+    BtnMostraVazado: TButton;
+    BtnBuscar: TButton;
     procedure BtnOpenClick(Sender: TObject);
 
   private
@@ -124,10 +127,17 @@ begin
             begin
               inc(iLine);
               Readln(CurrentFile, Line);
-              SeparaLinha(Line);
-              PosA := AchaTime(NomeA);
-              PosB := AchaTime(NomeB);
-              AnalisaJogo;
+
+              Line := Trim(Line);
+
+              if(Line <> '') then
+                begin
+                  SeparaLinha(Line);
+                  PosA := AchaTime(NomeA);
+                  PosB := AchaTime(NomeB);
+                  AnalisaJogo;
+                end;
+
             end;
 
           Ordena;
