@@ -138,9 +138,10 @@ begin
             ShowError(iLine, ' Não se pode converter uma letra em um número');
           on e:EInvalidLine do
             ShowError(iLine, e.Message);
+          on e:EInOutError do
+            ShowMessage('Erro de entrada e saída, não é possível ler o arquivo');
           on e:Exception do
-            with e.GetBaseException do
-              ShowError(iLine, ' Erro: ' + ClassName);
+            ShowMessage('Erro desconhecido. Contate o suporte');
         end;
 
         CloseFile(CurrentFile);
