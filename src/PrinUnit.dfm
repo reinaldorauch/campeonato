@@ -103,6 +103,7 @@ object PrinForm: TPrinForm
     Anchors = [akRight, akBottom]
     Caption = 'Pior Defeza'
     TabOrder = 3
+    OnClick = BtnMostraVazadoClick
   end
   object BtnBuscar: TButton
     Left = 436

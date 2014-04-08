@@ -26,20 +26,22 @@ type
     BtnMostraVazado: TButton;
     BtnBuscar: TButton;
     procedure BtnOpenClick(Sender: TObject);
+    procedure BtnMostraVazadoClick(Sender: TObject);
 
   private
     { Private declarations }
   public
     { Public declarations }
     procedure SeparaLinha(Linha: String);
-    function AchaTime(NomeBusca:String): Byte;
     procedure Mostra;
     procedure AnalisaJogo;
+    procedure ShowError(ind: LongWord; msg: String);
+    procedure Ordena;
+    procedure VerifyMaxSof(GolSof: Word; Ind: Word);
+    function AchaTime(NomeBusca:String): Byte;
     function Pontos(ind: Byte): Word;
     function Partidas(ind: Byte): Word;
     function Saldo(ind: Byte): Integer;
-    procedure ShowError(ind: LongWord; msg: String);
-    procedure Ordena;
   end;
 
 var
@@ -48,6 +50,8 @@ var
   VetTimes: Array of TRegTimes;
   NomeA, NomeB: String;
   GolA, GolB, PosA, PosB: Byte;
+  MaxGolSof: Word = 0;
+  ListTimesVaz: Array of Word;
 
 implementation
 
@@ -105,6 +109,11 @@ begin
         inc(VetTimes[PosA].Empates);
         inc(VetTimes[PosB].Empates);
       end;
+end;
+
+procedure TPrinForm.BtnMostraVazadoClick(Sender: TObject);
+begin
+  // Mostra
 end;
 
 procedure TPrinForm.BtnOpenClick(Sender: TObject);
@@ -190,6 +199,8 @@ var i, j: word;
 var aux: TRegTimes;
 begin
 
+  VerifyMaxSof(VetTimes[0].GolSofridos);
+
   for i := 1 to Length(VetTimes)-1 do
     begin
 
@@ -209,6 +220,9 @@ begin
 
           dec(j);
         end;
+
+        // Verifica maior gols sofridos
+        VerifyMaxSof(VetTimes[j].GolSofridos);
 
     end;
 
@@ -264,6 +278,21 @@ end;
 procedure TPrinForm.ShowError(ind: LongWord; msg: String);
 begin
   ShowMessage('Erro na linha #' + intToStr(ind) + ': ' + msg);
+end;
+
+procedure TPrinForm.VerifyMaxSof(GolSof: Word; Ind: Word);
+begin
+  if(GolSof > MaxGolSof) then
+    begin
+      MaxGolSof := GolSof;
+      SetLength(ListTimesVaz, 1);
+      ListTimesVaz[0] := Ind;
+    end
+  else if(GolSof = MaxGolSof) then
+    begin
+      SetLength(ListTimesVaz, Length(ListTimesVaz) + 1);
+      ListTimesVaz[Length(ListTimesVaz) - 1] := Ind;
+    end;
 end;
 
 end.
