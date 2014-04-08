@@ -112,8 +112,23 @@ begin
 end;
 
 procedure TPrinForm.BtnMostraVazadoClick(Sender: TObject);
+var
+  ShowString: String;
+  i: Word;
 begin
-  // Mostra
+  if((Length(VetTimes) = 0) OR (Length(ListTimesVaz) = 0)) then
+    ShowMessage('Não há times para analizar')
+  else
+    begin
+      ShowString := 'Times com a defeza mais fraca do campeonato:' + #13;
+
+      for i := 0 to Length(ListTimesVaz) - 1 do
+        with VetTimes[ListTimesVaz[i]] do
+          ShowString := ShowString + Nome + ': ' + IntToStr(GolSofridos)
+            + ' gols' + #13;
+
+      ShowMessage(ShowString);
+    end;
 end;
 
 procedure TPrinForm.BtnOpenClick(Sender: TObject);
@@ -179,6 +194,8 @@ begin
     with LvPlacar.Items.Add, VetTimes[i] do
       begin
 
+        VerifyMaxSof(GolSofridos, I);
+
         Caption := intToStr(i + 1);
 
         SubItems.Add(Nome);
@@ -199,8 +216,6 @@ var i, j: word;
 var aux: TRegTimes;
 begin
 
-  VerifyMaxSof(VetTimes[0].GolSofridos);
-
   for i := 1 to Length(VetTimes)-1 do
     begin
 
@@ -220,9 +235,6 @@ begin
 
           dec(j);
         end;
-
-        // Verifica maior gols sofridos
-        VerifyMaxSof(VetTimes[j].GolSofridos);
 
     end;
 
