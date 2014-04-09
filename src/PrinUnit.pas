@@ -53,6 +53,8 @@ var
   GolA, GolB, PosA, PosB: Byte;
   MaxGolSof: Word = 0;
   ListTimesVaz: Array of Word;
+  ListResults: Array of Word;
+  SearchTerm: String;
 
 implementation
 
@@ -122,12 +124,25 @@ begin
     if(Length(Trim(EdBusca.Text)) = 0) then
       ShowMessage('Nada para buscar')
     else
+      if((Length(ListResults) > 0) AND (SearchTerm = Trim(EdBusca.Text))) then
+        begin
+          LvPlacar.ItemIndex := ListResults[0];
+          ListResults := Copy(ListResults, 1, Length(ListResults));
+        end
+    else
       begin
+        SearchTerm := Trim(EdBusca.Text);
         for I := 0 to Length(VetTimes) - 1 do
           with VetTimes[i] do
-            if(Pos(Trim(EdBusca.Text), Nome) > 0) then
-              LvPlacar.ItemIndex := I;
+            if(Pos(SearchTerm, Nome) > 0) then
+              begin
+                SetLength(ListResults, Length(ListResults) + 1);
+                ListResults[Length(ListResults) - 1] := I;
+              end;
+        LvPlacar.ItemIndex := ListResults[0];
+        ListResults := Copy(ListResults, 1, Length(ListResults));
       end;
+
 end;
 
 procedure TPrinForm.BtnMostraVazadoClick(Sender: TObject);
