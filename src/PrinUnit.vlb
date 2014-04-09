@@ -1,0 +1,15 @@
+﻿[BtnBuscar]
+Coordinates=104,10,66,51
+
+[EdBusca]
+Coordinates=180,10,58,51
+
+[BtnMostraVazado]
+Coordinates=315,10,101,51
+
+[LvPlacar]
+Coordinates=10,10,84,249
+
+[BtnOpen]
+Coordinates=248,10,57,51
+

@@ -10,7 +10,9 @@ object PrinForm: TPrinForm
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
+  OnKeyPress = FormKeyPress
   DesignSize = (
     600
     202)
@@ -86,6 +88,7 @@ object PrinForm: TPrinForm
     RowSelect = True
     TabOrder = 1
     ViewStyle = vsReport
+    OnSelectItem = LvPlacarSelectItem
   end
   object EdBusca: TEdit
     Left = 89

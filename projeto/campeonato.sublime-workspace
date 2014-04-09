@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"Gol",
+				"GolSofridos"
+			],
+			[
+				"Show",
+				"ShowString"
+			],
+			[
+				"Go",
+				"GolSofridos"
+			],
+			[
+				"Ve",
+				"VerifyMaxSof"
+			],
+			[
+				"M",
+				"MaxGolSof"
+			],
+			[
 				"Oper",
 				"OperIgual"
 			],
@@ -72,7 +92,9 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Delphi/Desktop/projetosDelphi/campeonato/.gitignore",
 		"/C/Users/Delphi/Desktop/projetosDelphi/campeonato/src/PrinUnit.pas",
+		"/C/Users/Delphi/Desktop/projetosDelphi/WinCalc/PrinCalc.pas",
 		"/C/Users/Delphi/Desktop/projetosDelphi/campeonato/tests/Res_B_arrumado.txt",
 		"/C/Users/Public/Documents/RAD Studio/10.0/Samples/Delphi/RTL/RegExpression/Main.pas",
 		"/C/Users/Delphi/Desktop/projetosDelphi/campeonato/tests/teste.txt",
@@ -81,7 +103,6 @@
 		"/C/Users/Delphi/Desktop/projetosDelphi/campeonato/tests/Res_D.txt",
 		"/C/Users/Delphi/Desktop/projetosDelphi/campeonato/src/__history/PrinUnit.pas.~339~",
 		"/C/Users/Delphi/Desktop/projetosDelphi/ordenacao/PrinUnit.pas",
-		"/C/Users/Delphi/Desktop/projetosDelphi/campeonato/.gitignore",
 		"/C/Users/Delphi/Desktop/projetosDelphi/separados/PrinUnit.pas",
 		"/C/Users/Delphi/Desktop/projetosDelphi/copy/.gitignore",
 		"/C/Users/Delphi/Desktop/projetosDelphi/WinCalc/.gitignore",
@@ -107,6 +128,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"ItemIndex",
+			"Mostra",
 			",[0-9]{2,},",
 			",[0-9]{2,}",
 			"0",

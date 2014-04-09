@@ -28,6 +28,9 @@ type
     procedure BtnOpenClick(Sender: TObject);
     procedure BtnMostraVazadoClick(Sender: TObject);
     procedure BtnBuscarClick(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure LvPlacarSelectItem(Sender: TObject; Item: TListItem;
+      Selected: Boolean);
 
   private
     { Private declarations }
@@ -163,7 +166,7 @@ begin
     ShowMessage('Não há times para analizar')
   else
     begin
-      ShowString := 'Times com a defeza mais fraca do campeonato:' + #13;
+      ShowString := 'Times com a defesa mais fraca do campeonato:' + #13;
 
       for i := 0 to Length(ListTimesVaz) - 1 do
         with VetTimes[ListTimesVaz[i]] do
@@ -226,6 +229,21 @@ begin
       end
   else
     ShowMessage('Arquivo ' + OpenDialog.FileName + ' não encontrado');
+end;
+
+procedure TPrinForm.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+
+  if((Key = #13) AND EdBusca.Focused) then
+    BtnBuscarClick(Sender);
+
+end;
+
+procedure TPrinForm.LvPlacarSelectItem(Sender: TObject; Item: TListItem;
+  Selected: Boolean);
+begin
+  if(Selected) then
+    Item.MakeVisible(True);
 end;
 
 procedure TPrinForm.Mostra;
