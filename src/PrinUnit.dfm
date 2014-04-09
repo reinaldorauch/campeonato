@@ -91,7 +91,7 @@ object PrinForm: TPrinForm
     Left = 89
     Top = 171
     Width = 341
-    Height = 25
+    Height = 21
     Anchors = [akLeft, akRight, akBottom]
     TabOrder = 2
   end
@@ -113,6 +113,7 @@ object PrinForm: TPrinForm
     Anchors = [akRight, akBottom]
     Caption = 'Buscar'
     TabOrder = 4
+    OnClick = BtnBuscarClick
   end
   object OpenDialog: TOpenDialog
     Left = 328

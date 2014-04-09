@@ -27,6 +27,7 @@ type
     BtnBuscar: TButton;
     procedure BtnOpenClick(Sender: TObject);
     procedure BtnMostraVazadoClick(Sender: TObject);
+    procedure BtnBuscarClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -108,6 +109,24 @@ begin
       begin
         inc(VetTimes[PosA].Empates);
         inc(VetTimes[PosB].Empates);
+      end;
+end;
+
+procedure TPrinForm.BtnBuscarClick(Sender: TObject);
+var
+  I: Integer;
+begin
+  if(Length(VetTimes) = 0) then
+    ShowMessage('Nenhum time para buscar')
+  else
+    if(Length(Trim(EdBusca.Text)) = 0) then
+      ShowMessage('Nada para buscar')
+    else
+      begin
+        for I := 0 to Length(VetTimes) - 1 do
+          with VetTimes[i] do
+            if(Pos(Trim(EdBusca.Text), Nome) > 0) then
+              LvPlacar.ItemIndex := I;
       end;
 end;
 
