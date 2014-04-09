@@ -132,6 +132,9 @@ begin
     else
       begin
         SearchTerm := Trim(EdBusca.Text);
+
+        SetLength(ListResults, 0);
+
         for I := 0 to Length(VetTimes) - 1 do
           with VetTimes[i] do
             if(Pos(SearchTerm, Nome) > 0) then
@@ -139,8 +142,14 @@ begin
                 SetLength(ListResults, Length(ListResults) + 1);
                 ListResults[Length(ListResults) - 1] := I;
               end;
-        LvPlacar.ItemIndex := ListResults[0];
-        ListResults := Copy(ListResults, 1, Length(ListResults));
+
+        if(Length(ListResults) > 0) then
+          begin
+            LvPlacar.ItemIndex := ListResults[0];
+            ListResults := Copy(ListResults, 1, Length(ListResults));
+          end
+        else
+          LvPlacar.ItemIndex := -1;
       end;
 
 end;
