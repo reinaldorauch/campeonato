@@ -54,7 +54,7 @@ var
   VetTimes: Array of TRegTimes;
   NomeA, NomeB: String;
   GolA, GolB, PosA, PosB: Byte;
-  MaxGolSof: Word = 0;
+  MaxGolSof: Word;
   ListTimesVaz: Array of Word;
   ListResults: Array of Word;
   SearchTerm: String;
@@ -132,28 +132,28 @@ begin
           LvPlacar.ItemIndex := ListResults[0];
           ListResults := Copy(ListResults, 1, Length(ListResults));
         end
-    else
-      begin
-        SearchTerm := Trim(EdBusca.Text);
+      else
+        begin
+          SearchTerm := Trim(EdBusca.Text);
 
-        SetLength(ListResults, 0);
+          SetLength(ListResults, 0);
 
-        for I := 0 to Length(VetTimes) - 1 do
-          with VetTimes[i] do
-            if(Pos(SearchTerm, Nome) > 0) then
-              begin
-                SetLength(ListResults, Length(ListResults) + 1);
-                ListResults[Length(ListResults) - 1] := I;
-              end;
+          for I := 0 to Length(VetTimes) - 1 do
+            with VetTimes[i] do
+              if(Pos(SearchTerm, Nome) > 0) then
+                begin
+                  SetLength(ListResults, Length(ListResults) + 1);
+                  ListResults[Length(ListResults) - 1] := I;
+                end;
 
-        if(Length(ListResults) > 0) then
-          begin
-            LvPlacar.ItemIndex := ListResults[0];
-            ListResults := Copy(ListResults, 1, Length(ListResults));
-          end
-        else
-          LvPlacar.ItemIndex := -1;
-      end;
+          if(Length(ListResults) > 0) then
+            begin
+              LvPlacar.ItemIndex := ListResults[0];
+              ListResults := Copy(ListResults, 1, Length(ListResults));
+            end
+          else
+            LvPlacar.ItemIndex := -1;
+        end;
 
 end;
 
@@ -250,6 +250,8 @@ procedure TPrinForm.Mostra;
 var i: Byte;
 begin
   LvPlacar.Items.Clear;
+
+  MaxGolSof := 0;
 
   for I := 0 to Length(VetTimes) - 1 do
     with LvPlacar.Items.Add, VetTimes[i] do
@@ -361,11 +363,12 @@ begin
       SetLength(ListTimesVaz, 1);
       ListTimesVaz[0] := Ind;
     end
-  else if(GolSof = MaxGolSof) then
-    begin
-      SetLength(ListTimesVaz, Length(ListTimesVaz) + 1);
-      ListTimesVaz[Length(ListTimesVaz) - 1] := Ind;
-    end;
+  else
+    if(GolSof = MaxGolSof) then
+      begin
+        SetLength(ListTimesVaz, Length(ListTimesVaz) + 1);
+        ListTimesVaz[Length(ListTimesVaz) - 1] := Ind;
+      end;
 end;
 
 end.
