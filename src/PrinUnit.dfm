@@ -23,10 +23,9 @@ object PrinForm: TPrinForm
     Top = 169
     Width = 75
     Height = 25
+    Action = AcAction
     Anchors = [akLeft, akBottom]
-    Caption = 'Abrir'
     TabOrder = 0
-    OnClick = BtnOpenClick
   end
   object LvPlacar: TListView
     Left = 8
@@ -103,20 +102,18 @@ object PrinForm: TPrinForm
     Top = 169
     Width = 75
     Height = 25
+    Action = AcPiorDefeza
     Anchors = [akRight, akBottom]
-    Caption = 'Pior Defeza'
     TabOrder = 3
-    OnClick = BtnMostraVazadoClick
   end
   object BtnBuscar: TButton
     Left = 436
     Top = 169
     Width = 75
     Height = 25
+    Action = AcBuscarTime
     Anchors = [akRight, akBottom]
-    Caption = 'Buscar'
     TabOrder = 4
-    OnClick = BtnBuscarClick
   end
   object OpenDialog: TOpenDialog
     Left = 328
@@ -125,5 +122,20 @@ object PrinForm: TPrinForm
   object ActionList: TActionList
     Left = 536
     Top = 48
+    object AcAction: TAction
+      Caption = 'Abrir'
+      Hint = 'Abrir Arquivo'
+      OnExecute = AcActionExecute
+    end
+    object AcBuscarTime: TAction
+      Caption = 'Buscar'
+      Hint = 'Buscar Times'
+      OnExecute = AcBuscarTimeExecute
+    end
+    object AcPiorDefeza: TAction
+      Caption = 'Pior Defeza'
+      Hint = 'Procurar Pior Defeza'
+      OnExecute = AcPiorDefezaExecute
+    end
   end
 end
