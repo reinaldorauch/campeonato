@@ -4,7 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, RegularExpressions;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, RegularExpressions,
+  System.Actions, Vcl.ActnList;
 
 type
   TRegTimes = Record
@@ -25,6 +26,7 @@ type
     EdBusca: TEdit;
     BtnMostraVazado: TButton;
     BtnBuscar: TButton;
+    ActionList: TActionList;
     procedure BtnOpenClick(Sender: TObject);
     procedure BtnMostraVazadoClick(Sender: TObject);
     procedure BtnBuscarClick(Sender: TObject);

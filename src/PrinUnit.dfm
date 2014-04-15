@@ -122,4 +122,8 @@ object PrinForm: TPrinForm
     Left = 328
     Top = 176
   end
+  object ActionList: TActionList
+    Left = 536
+    Top = 48
+  end
 end
