@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, RegularExpressions,
-  System.Actions, Vcl.ActnList;
+  System.Actions, Vcl.ActnList, Vcl.ToolWin, Vcl.ImgList, Vcl.Menus;
 
 type
   TRegTimes = Record
@@ -27,15 +27,34 @@ type
     BtnMostraVazado: TButton;
     BtnBuscar: TButton;
     ActionList: TActionList;
-    AcAction: TAction;
+    AcAbrir: TAction;
     AcBuscarTime: TAction;
     AcPiorDefeza: TAction;
+    ToolBar: TToolBar;
+    TbAbrir: TToolButton;
+    ImageList: TImageList;
+    MainMenu: TMainMenu;
+    Arquivo1: TMenuItem;
+    Abrir1: TMenuItem;
+    N1: TMenuItem;
+    Fechar1: TMenuItem;
+    PopupMenu: TPopupMenu;
+    Abrir2: TMenuItem;
+    Aes1: TMenuItem;
+    Buscar1: TMenuItem;
+    PiorDefeza1: TMenuItem;
+    AcBuscarFocus: TAction;
+    ToolButton1: TToolButton;
+    ToolButton2: TToolButton;
+    Buscar2: TMenuItem;
+    PiorDefeza2: TMenuItem;
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure LvPlacarSelectItem(Sender: TObject; Item: TListItem;
       Selected: Boolean);
-    procedure AcActionExecute(Sender: TObject);
+    procedure AcAbrirExecute(Sender: TObject);
     procedure AcBuscarTimeExecute(Sender: TObject);
     procedure AcPiorDefezaExecute(Sender: TObject);
+    procedure AcBuscarFocusExecute(Sender: TObject);
 
   private
     { Private declarations }
@@ -68,7 +87,7 @@ implementation
 
 {$R *.dfm}
 
-procedure TPrinForm.AcActionExecute(Sender: TObject);
+procedure TPrinForm.AcAbrirExecute(Sender: TObject);
 var
   Line: String;
   iLine: LongWord;
@@ -121,6 +140,14 @@ begin
       end
   else
     ShowMessage('Arquivo ' + OpenDialog.FileName + ' não encontrado');
+end;
+
+procedure TPrinForm.AcBuscarFocusExecute(Sender: TObject);
+begin
+  EdBusca.SetFocus;
+
+  if(Length(Trim(EdBusca.Text)) > 0) then
+    AcBuscarTimeExecute(Sender);
 end;
 
 procedure TPrinForm.AcBuscarTimeExecute(Sender: TObject);
