@@ -2,7 +2,8 @@ program campeonato;
 
 uses
   Vcl.Forms,
-  PrinUnit in '..\src\PrinUnit.pas' {PrinForm};
+  PrinUnit in '..\src\PrinUnit.pas' {PrinForm},
+  Vazados in '..\src\Vazados.pas' {FormVazados};
 
 {$R *.res}
 

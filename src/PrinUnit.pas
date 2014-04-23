@@ -4,7 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, RegularExpressions;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, RegularExpressions,
+  System.Actions, Vcl.ActnList, Vcl.ToolWin, Vcl.ImgList, Vcl.Menus;
 
 type
   TRegTimes = Record
@@ -25,12 +26,35 @@ type
     EdBusca: TEdit;
     BtnMostraVazado: TButton;
     BtnBuscar: TButton;
-    procedure BtnOpenClick(Sender: TObject);
-    procedure BtnMostraVazadoClick(Sender: TObject);
-    procedure BtnBuscarClick(Sender: TObject);
+    ActionList: TActionList;
+    AcAbrir: TAction;
+    AcBuscarTime: TAction;
+    AcPiorDefeza: TAction;
+    ToolBar: TToolBar;
+    TbAbrir: TToolButton;
+    ImageList: TImageList;
+    MainMenu: TMainMenu;
+    Arquivo1: TMenuItem;
+    Abrir1: TMenuItem;
+    N1: TMenuItem;
+    Fechar1: TMenuItem;
+    PopupMenu: TPopupMenu;
+    Abrir2: TMenuItem;
+    Aes1: TMenuItem;
+    Buscar1: TMenuItem;
+    PiorDefeza1: TMenuItem;
+    AcBuscarFocus: TAction;
+    ToolButton1: TToolButton;
+    ToolButton2: TToolButton;
+    Buscar2: TMenuItem;
+    PiorDefeza2: TMenuItem;
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure LvPlacarSelectItem(Sender: TObject; Item: TListItem;
       Selected: Boolean);
+    procedure AcAbrirExecute(Sender: TObject);
+    procedure AcBuscarTimeExecute(Sender: TObject);
+    procedure AcPiorDefezaExecute(Sender: TObject);
+    procedure AcBuscarFocusExecute(Sender: TObject);
 
   private
     { Private declarations }
@@ -63,127 +87,20 @@ implementation
 
 {$R *.dfm}
 
-function TPrinForm.AchaTime(NomeBusca: String): Byte;
-var i: Byte;
-begin
+uses Vazados;
 
-  i := 0;
-
-  while  (i <= (Length(VetTimes) - 1)) AND (VetTimes[i].Nome <> NomeBusca)do
-    inc(i);
-
-  if(i = Length(VetTimes)) then
-    begin
-      SetLength(VetTimes, Length(VetTimes) + 1);
-
-      with VetTimes[i] do
-        begin
-          Nome        := NomeBusca;
-          Vitorias    := 0;
-          Derrotas    := 0;
-          Empates     := 0;
-          GolFeitos   := 0;
-          GolSofridos := 0;
-        end;
-
-    end;
-
-  Result := i;
-
-end;
-
-procedure TPrinForm.AnalisaJogo;
-begin
-  inc(VetTimes[PosA].GolFeitos, GolA);
-  inc(VetTimes[PosA].GolSofridos, GolB);
-  inc(VetTimes[PosB].GolFeitos, GolB);
-  inc(VetTimes[PosB].GolSofridos, GolA);
-
-  if(GolA > GolB) then
-    begin
-      inc(VetTimes[PosA].Vitorias);
-      inc(VetTimes[PosB].Derrotas);
-    end
-  else
-    if(GolB > GolA) then
-      begin
-        inc(VetTimes[PosB].Vitorias);
-        inc(VetTimes[PosA].Derrotas);
-      end
-    else
-      begin
-        inc(VetTimes[PosA].Empates);
-        inc(VetTimes[PosB].Empates);
-      end;
-end;
-
-procedure TPrinForm.BtnBuscarClick(Sender: TObject);
+procedure TPrinForm.AcAbrirExecute(Sender: TObject);
 var
-  I: Integer;
-begin
-  if(Length(VetTimes) = 0) then
-    ShowMessage('Nenhum time para buscar')
-  else
-    if(Length(Trim(EdBusca.Text)) = 0) then
-      ShowMessage('Nada para buscar')
-    else
-      if((Length(ListResults) > 0) AND (SearchTerm = Trim(EdBusca.Text))) then
-        begin
-          LvPlacar.ItemIndex := ListResults[0];
-          ListResults := Copy(ListResults, 1, Length(ListResults));
-        end
-      else
-        begin
-          SearchTerm := Trim(EdBusca.Text);
-
-          SetLength(ListResults, 0);
-
-          for I := 0 to Length(VetTimes) - 1 do
-            with VetTimes[i] do
-              if(Pos(SearchTerm, Nome) > 0) then
-                begin
-                  SetLength(ListResults, Length(ListResults) + 1);
-                  ListResults[Length(ListResults) - 1] := I;
-                end;
-
-          if(Length(ListResults) > 0) then
-            begin
-              LvPlacar.ItemIndex := ListResults[0];
-              ListResults := Copy(ListResults, 1, Length(ListResults));
-            end
-          else
-            LvPlacar.ItemIndex := -1;
-        end;
-
-end;
-
-procedure TPrinForm.BtnMostraVazadoClick(Sender: TObject);
-var
-  ShowString: String;
-  i: Word;
-begin
-  if((Length(VetTimes) = 0) OR (Length(ListTimesVaz) = 0)) then
-    ShowMessage('Não há times para analizar')
-  else
-    begin
-      ShowString := 'Times com a defesa mais fraca do campeonato:' + #13;
-
-      for i := 0 to Length(ListTimesVaz) - 1 do
-        with VetTimes[ListTimesVaz[i]] do
-          ShowString := ShowString + Nome + ': ' + IntToStr(GolSofridos)
-            + ' gols' + #13;
-
-      ShowMessage(ShowString);
-    end;
-end;
-
-procedure TPrinForm.BtnOpenClick(Sender: TObject);
-var Line: String;
-var iLine: LongWord;
+  Line: String;
+  iLine: LongWord;
 begin
   if(OpenDialog.Execute) then
     if(FileExists(OpenDialog.FileName)) then
       begin
+
+        MaxGolSof := 0;
+
+        SetLength(VetTimes,0);
 
         AssignFile(CurrentFile, OpenDialog.FileName);
 
@@ -231,11 +148,142 @@ begin
     ShowMessage('Arquivo ' + OpenDialog.FileName + ' não encontrado');
 end;
 
+procedure TPrinForm.AcBuscarFocusExecute(Sender: TObject);
+begin
+  EdBusca.SetFocus;
+
+  if(Length(Trim(EdBusca.Text)) > 0) then
+    AcBuscarTimeExecute(Sender);
+end;
+
+procedure TPrinForm.AcBuscarTimeExecute(Sender: TObject);
+var
+  I: Integer;
+begin
+  if(Length(VetTimes) = 0) then
+    ShowMessage('Nenhum time para buscar')
+  else
+    if(Length(Trim(EdBusca.Text)) = 0) then
+      ShowMessage('Nada para buscar')
+    else
+      if((Length(ListResults) > 0) AND (SearchTerm = Trim(EdBusca.Text))) then
+        begin
+          LvPlacar.ItemIndex := ListResults[0];
+          ListResults := Copy(ListResults, 1, Length(ListResults));
+        end
+      else
+        begin
+          SearchTerm := Trim(EdBusca.Text);
+
+          SetLength(ListResults, 0);
+
+          for I := 0 to Length(VetTimes) - 1 do
+            with VetTimes[i] do
+              if(Pos(SearchTerm, Nome) > 0) then
+                begin
+                  SetLength(ListResults, Length(ListResults) + 1);
+                  ListResults[Length(ListResults) - 1] := I;
+                end;
+
+          if(Length(ListResults) > 0) then
+            begin
+              LvPlacar.ItemIndex := ListResults[0];
+              ListResults := Copy(ListResults, 1, Length(ListResults));
+            end
+          else
+            LvPlacar.ItemIndex := -1;
+        end;
+
+end;
+
+function TPrinForm.AchaTime(NomeBusca: String): Byte;
+var i: Byte;
+begin
+
+  i := 0;
+
+  while  (i <= (Length(VetTimes) - 1)) AND (VetTimes[i].Nome <> NomeBusca)do
+    inc(i);
+
+  if(i = Length(VetTimes)) then
+    begin
+      SetLength(VetTimes, Length(VetTimes) + 1);
+
+      with VetTimes[i] do
+        begin
+          Nome        := NomeBusca;
+          Vitorias    := 0;
+          Derrotas    := 0;
+          Empates     := 0;
+          GolFeitos   := 0;
+          GolSofridos := 0;
+        end;
+
+    end;
+
+  Result := i;
+
+end;
+
+procedure TPrinForm.AcPiorDefezaExecute(Sender: TObject);
+var
+  ShowString: String;
+  i: Word;
+begin
+  if((Length(VetTimes) = 0) OR (Length(ListTimesVaz) = 0)) then
+    ShowMessage('Não há times para analizar')
+  else
+    begin
+      FormVazados := TFormVazados.Create(Self);
+
+      for i := 0 to Length(ListTimesVaz) - 1 do
+        with VetTimes[ListTimesVaz[i]], FormVazados.LvVazados.Items.Add do
+        begin
+          Caption := Nome;
+          SubItems.Add(intToStr(Pontos(ListTimesVaz[i])));
+          SubItems.Add(intToStr(Vitorias));
+          SubItems.Add(intToStr(Empates));
+          SubItems.Add(intToStr(Derrotas));
+          SubItems.Add(intToStr(Partidas(ListTimesVaz[i])));
+          SubItems.Add(intToStr(GolFeitos));
+          SubItems.Add(intToStr(GolSofridos));
+          SubItems.Add(intToStr(Saldo(ListTimesVaz[i])));
+        end;
+
+      FormVazados.ShowModal;
+    end;
+end;
+
+procedure TPrinForm.AnalisaJogo;
+begin
+  inc(VetTimes[PosA].GolFeitos, GolA);
+  inc(VetTimes[PosA].GolSofridos, GolB);
+  inc(VetTimes[PosB].GolFeitos, GolB);
+  inc(VetTimes[PosB].GolSofridos, GolA);
+
+  if(GolA > GolB) then
+    begin
+      inc(VetTimes[PosA].Vitorias);
+      inc(VetTimes[PosB].Derrotas);
+    end
+  else
+    if(GolB > GolA) then
+      begin
+        inc(VetTimes[PosB].Vitorias);
+        inc(VetTimes[PosA].Derrotas);
+      end
+    else
+      begin
+        inc(VetTimes[PosA].Empates);
+        inc(VetTimes[PosB].Empates);
+      end;
+end;
+
 procedure TPrinForm.FormKeyPress(Sender: TObject; var Key: Char);
 begin
 
   if((Key = #13) AND EdBusca.Focused) then
-    BtnBuscarClick(Sender);
+    AcBuscarTimeExecute(Sender);
 
 end;
 
