@@ -230,14 +230,32 @@ begin
     ShowMessage('Não há times para analizar')
   else
     begin
-      ShowString := 'Times com a defesa mais fraca do campeonato:' + #13;
+      {ShowString := 'Times com a defesa mais fraca do campeonato:' + #13;
 
       for i := 0 to Length(ListTimesVaz) - 1 do
         with VetTimes[ListTimesVaz[i]] do
           ShowString := ShowString + Nome + ': ' + IntToStr(GolSofridos)
             + ' gols' + #13;
 
-      ShowMessage(ShowString);
+      ShowMessage(ShowString);}
+
+      FormVazados := TFormVazados.Create(Self);
+
+      for i := 0 to Length(ListTimesVaz) - 1 do
+        with VetTimes[ListTimesVaz[i]], FormVazados.LvVazados.Items.Add do
+        begin
+          Caption := Nome;
+          SubItems.Add(intToStr(Pontos(ListTimesVaz[i])));
+          SubItems.Add(intToStr(Vitorias));
+          SubItems.Add(intToStr(Empates));
+          SubItems.Add(intToStr(Derrotas));
+          SubItems.Add(intToStr(Partidas(ListTimesVaz[i])));
+          SubItems.Add(intToStr(GolFeitos));
+          SubItems.Add(intToStr(GolSofridos));
+          SubItems.Add(intToStr(Saldo(ListTimesVaz[i])));
+        end;
+
+      FormVazados.ShowModal;
     end;
 end;
 
