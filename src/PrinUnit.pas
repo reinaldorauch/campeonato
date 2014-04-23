@@ -87,6 +87,8 @@ implementation
 
 {$R *.dfm}
 
+uses Vazados;
+
 procedure TPrinForm.AcAbrirExecute(Sender: TObject);
 var
   Line: String;
