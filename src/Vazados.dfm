@@ -11,6 +11,7 @@ object FormVazados: TFormVazados
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poMainFormCenter
   OnClose = FormClose
   DesignSize = (
     574

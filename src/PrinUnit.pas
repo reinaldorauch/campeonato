@@ -78,7 +78,7 @@ var
   VetTimes: Array of TRegTimes;
   NomeA, NomeB: String;
   GolA, GolB, PosA, PosB: Byte;
-  MaxGolSof: Word = 0;
+  MaxGolSof: Word;
   ListTimesVaz: Array of Word;
   ListResults: Array of Word;
   SearchTerm: String;
@@ -97,6 +97,10 @@ begin
   if(OpenDialog.Execute) then
     if(FileExists(OpenDialog.FileName)) then
       begin
+
+        MaxGolSof := 0;
+
+        SetLength(VetTimes,0);
 
         AssignFile(CurrentFile, OpenDialog.FileName);
 
@@ -230,15 +234,6 @@ begin
     ShowMessage('Não há times para analizar')
   else
     begin
-      {ShowString := 'Times com a defesa mais fraca do campeonato:' + #13;
-
-      for i := 0 to Length(ListTimesVaz) - 1 do
-        with VetTimes[ListTimesVaz[i]] do
-          ShowString := ShowString + Nome + ': ' + IntToStr(GolSofridos)
-            + ' gols' + #13;
-
-      ShowMessage(ShowString);}
-
       FormVazados := TFormVazados.Create(Self);
 
       for i := 0 to Length(ListTimesVaz) - 1 do
